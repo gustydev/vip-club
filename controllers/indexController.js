@@ -2,9 +2,10 @@ const User = require('../models/user');
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcryptjs')
+const passport = require("passport");
 
 exports.index = function(req, res, next) {
-    res.render('index', {title: 'VIP Club'})
+    res.render('index', {title: 'VIP Club', user: req.user})
 }
 
 exports.signUpGet = function (req, res, next) {
@@ -55,3 +56,19 @@ exports.signUpPost = [
         }
     })
 ];
+
+exports.loginGet = function(req, res, next) {
+    res.render('login', {title: 'Log in'})
+}
+
+exports.loginPost = passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login"
+})
+
+exports.logout = function(req, res, next) {
+    req.logout(function(err) {
+        if (err) { return next(err) }
+        res.redirect('/')
+    })
+}
