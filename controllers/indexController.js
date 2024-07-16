@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const bcrypt = require('bcryptjs')
 
 exports.index = function(req, res, next) {
     res.render('index', {title: 'VIP Club'})
@@ -22,21 +23,26 @@ exports.signUpPost = [
         }
     }),
 
-    // then...
     asyncHandler(async function(req, res, next) {
         const errors = validationResult(req);
 
         if (errors.isEmpty()) {
             try {
-                const user = new User({
-                  username: req.body.username,
-                  password: req.body.password, // Encrypt this!!!11,
-                  joined: new Date(),
-                  vip: false,
-                  admin: false
+                bcrypt.hash(req.body.password, 10, async(err, hashedPass) => {
+                    if (err) {
+                        return next(err)
+                    }
+
+                    const user = new User({
+                        username: req.body.username,
+                        password: hashedPass,
+                        joined: new Date(),
+                        vip: false,
+                        admin: false
+                      })
+                    await user.save()
+                    res.redirect('/')
                 })
-                await user.save()
-                res.redirect('/')
               } catch {
                 return next(err)
               }
