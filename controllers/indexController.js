@@ -72,3 +72,21 @@ exports.logout = function(req, res, next) {
         res.redirect('/')
     })
 }
+
+exports.vipApplyGet = function(req,res,next) {
+    if (req.user && !req.user.vip) {
+        res.render('vip-apply', {title: 'Apply for VIP'})
+    } else {
+        res.redirect('/')
+    }
+}
+
+exports.vipApplyPost = asyncHandler(async function(req, res, next) {
+    const user = await User.findById(req.user._id);
+    if (req.body.password === process.env.VIP_PASS) {
+        await User.findByIdAndUpdate(req.user._id, {vip: true});
+        res.redirect('/')
+    } else {
+        res.render('vip-apply', {title: 'Apply for VIP', wrong: 'Wrong password!!'})
+    }
+})

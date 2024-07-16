@@ -13,4 +13,7 @@ router.post('/login', indexController.loginPost)
 
 router.get('/logout', indexController.logout)
 
+router.get('/vip-apply', indexController.vipApplyGet)
+router.post('/vip-apply', indexController.vipApplyPost)
+
 module.exports = router;
