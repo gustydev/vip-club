@@ -14,7 +14,12 @@ exports.signUpGet = function (req, res, next) {
 
 exports.signUpPost = [
     // validate and sanitize inputs
-    body('username', 'Username is required').isLength({min: 1}).trim().escape(),
+    body('username', 'Username is required').isLength({min: 1}).custom(async (value) => {
+        const user = await User.findOne({username: value})
+        if (user) {
+            throw new Error(`Username '${value}' already in use. Please try a different one.`)
+        }
+    }).trim().escape(),
     body('password', 'Password is required (minimum of 4 characters)').isLength({min: 4}).trim().escape(),
     body('passwordConfirm').custom((value, {req}) => {
         if (value === req.body.password) {
