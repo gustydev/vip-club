@@ -82,7 +82,7 @@ button.msg-delete:hover {
   padding: 0;
   list-style: none;
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .top-links > li > a {

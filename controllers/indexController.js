@@ -80,7 +80,10 @@ exports.signUpPost = [
                         admin: false
                       })
                     await user.save()
-                    res.redirect('/')
+                    res.render('sign-up-success', {
+                        title: 'Log in',
+                        user: user
+                    })
                 })
               } catch {
                 return next(err)
