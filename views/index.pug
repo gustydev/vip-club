@@ -10,7 +10,7 @@ block content
     else 
       p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
-    p Welcome to the #{title}.
+    p Welcome to the #{title}. 
   if user
     a(href='/logout') Log out
   else 
@@ -30,14 +30,14 @@ block content
                 div.author(style='font-weight:bold')=message.author.username 
                 div.userType=(message.author.admin ? '(Admin)' : message.author.vip ? '(VIP)' : '(Regular)')
                 div.posted=`| ${message.dateFormatted}`
+                if (user.admin) 
+                  form(method='post' action='/msg-delete')
+                    label(for="message")
+                    input(type="hidden" name='message' value=message._id) 
+                    button.msg-delete Delete
               else 
                 div.hidden #[strong ???]
             div.text=message.text 
-            if (user && (user.admin || message.author.id === user.id)) 
-              form(method='post' action='/msg-delete')
-                label(for="message")
-                input(type="hidden" name='message' value=message._id) 
-                button.msg-delete Delete
   if user
     form#messagePost(method='post')
       label(for="text")

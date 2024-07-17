@@ -34,9 +34,7 @@ exports.messagePost = [
 ]
 
 exports.messageDeletePost = asyncHandler(async function (req, res, next) {
-    const message = await Message.findById(req.body.message).populate('author').exec();
-
-    if (req.user.admin || message.author.id === req.user.id) {
+    if (req.user.admin) {
         await Message.findByIdAndDelete(req.body.message).exec();
     }
 

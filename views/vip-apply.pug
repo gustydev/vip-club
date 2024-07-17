@@ -4,9 +4,8 @@ block content
     h2 Apply for VIP 
     p What is the secret password?
     form(action="", method="post") 
-        div.form-field
-            label(for="password")
-            input#password(type="password" name='password' required)
-            button(type='submit') Submit 
+        label(for="password")
+        input#password(type="password" name='password' required)
+        button(type='submit') Submit 
     if wrong 
         p=wrong

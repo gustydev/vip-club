@@ -55,3 +55,16 @@ form#signup, form#login {
 button {
   font-weight: bold;
 }
+
+button.msg-delete {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: white;
+  color: red;
+}
+
+button.msg-delete:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
