@@ -6,3 +6,13 @@ body {
 a {
   color: #00B7FF;
 }
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+form#messagePost {
+  margin-top: 8px;
+}

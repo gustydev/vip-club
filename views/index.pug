@@ -6,6 +6,8 @@ block content
     p Welcome back, #[strong #{user.username}]!
     if user.vip 
       p You are a VIP!
+      if user.admin 
+        p And an admin!
     else 
       p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
@@ -16,3 +18,23 @@ block content
     a(href='/sign-up') Sign up
     br
     a(href='/login') Log in
+  h2 Messages 
+  if !messages.length
+    p No messages yet.
+  else 
+    div.messages
+      for message in messages 
+        div.message
+          div.info
+            if (user && (user.vip || message.author.username === user.username))
+              div.author(style='font-weight:bold')=message.author.username 
+              div.userType=(message.author.admin ? 'Admin' : message.author.vip ? 'VIP' : 'Regular')
+              div.posted=message.posted 
+            else 
+              div.hidden #[strong ???]
+          div.text=message.text 
+    if user
+      form#messagePost(method='post')
+        label(for="text")
+        input#text(type="text" name='text' placeholder='Your message' required min=1)
+        button(type="submit") Post   

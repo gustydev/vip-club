@@ -4,6 +4,7 @@ const indexController = require('../controllers/indexController');
 const User = require('../models/user')
 
 router.get('/', indexController.index);
+router.post('/', indexController.messagePost);
 
 router.get('/sign-up', indexController.signUpGet)
 router.post('/sign-up', indexController.signUpPost)

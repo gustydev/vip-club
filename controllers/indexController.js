@@ -1,12 +1,36 @@
 const User = require('../models/user');
+const Message = require('../models/message');
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcryptjs')
 const passport = require("passport");
 
-exports.index = function(req, res, next) {
-    res.render('index', {title: 'VIP Club', user: req.user})
-}
+exports.index = asyncHandler(async function(req, res, next) {
+    const messages = await Message.find().populate('author').exec();
+
+    res.render('index', {title: 'VIP Club', user: req.user, messages: messages, user: req.user})
+})
+
+exports.messagePost = [
+    body('text').isLength({min: 1}).trim().escape(),
+
+    asyncHandler(async function(req, res, next) {
+        const errors = validationResult(req);
+
+        if (errors.isEmpty()) {
+            const message = new Message({
+                author: req.user,
+                text: req.body.text,
+                posted: new Date()
+            })
+            await message.save();
+            res.redirect('/')
+        } else {
+            const messages = await Message.find().populate('author').exec();
+            res.render('index', {title: 'VIP Club', user: req.user, messages: messages, user: req.user, errors: errors.array()})
+        }
+    })
+]
 
 exports.signUpGet = function (req, res, next) {
     res.render('sign-up', {title: 'Sign up'});
