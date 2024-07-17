@@ -13,7 +13,7 @@ exports.index = asyncHandler(async function(req, res, next) {
 })
 
 exports.messagePost = [
-    body('text', 'Invalid message').trim().escape().isLength({min: 1}),
+    body('text', 'Invalid message').trim().isLength({min: 1}).escape().unescape(),
 
     asyncHandler(async function(req, res, next) {
         const errors = validationResult(req);
