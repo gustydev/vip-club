@@ -5,6 +5,7 @@ const User = require('../models/user')
 
 router.get('/', indexController.index);
 router.post('/', indexController.messagePost);
+router.post('/msg-delete', indexController.messageDeletePost);
 
 router.get('/sign-up', indexController.signUpGet)
 router.post('/sign-up', indexController.signUpPost)

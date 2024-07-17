@@ -26,15 +26,23 @@ block content
       for message in messages 
         div.message
           div.info
-            if (user && (user.vip || message.author.username === user.username))
+            if (user && (user.vip || message.author.id === user.id))
               div.author(style='font-weight:bold')=message.author.username 
-              div.userType=(message.author.admin ? 'Admin' : message.author.vip ? 'VIP' : 'Regular')
-              div.posted=message.posted 
+              div.userType=(message.author.admin ? '(Admin)' : message.author.vip ? '(VIP)' : '(Regular)')
+              div.posted=`| ${message.dateFormatted}`
             else 
               div.hidden #[strong ???]
           div.text=message.text 
-    if user
-      form#messagePost(method='post')
-        label(for="text")
-        input#text(type="text" name='text' placeholder='Your message' required min=1)
-        button(type="submit") Post   
+          if (user && (user.admin || message.author.id === user.id)) 
+            form(method='post' action='/msg-delete')
+              label(for="message")
+              input(type="hidden" name='message' value=message._id) 
+              button.msg-delete Delete
+  if user
+    form#messagePost(method='post')
+      label(for="text")
+      input#text(type="text" name='text' placeholder='Your message' required min=1)
+      button(type="submit") Post   
+      if errors 
+        for error in errors
+          p=error.msg

@@ -13,6 +13,11 @@ a {
   gap: 8px;
 }
 
+.info {
+  display: flex;
+  gap: 4px;
+}
+
 form#messagePost {
   margin-top: 8px;
 }

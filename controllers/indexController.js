@@ -4,6 +4,7 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcryptjs')
 const passport = require("passport");
+const user = require('../models/user');
 
 exports.index = asyncHandler(async function(req, res, next) {
     const messages = await Message.find().populate('author').exec();
@@ -12,7 +13,7 @@ exports.index = asyncHandler(async function(req, res, next) {
 })
 
 exports.messagePost = [
-    body('text').isLength({min: 1}).trim().escape(),
+    body('text', 'Invalid message').trim().escape().isLength({min: 1}),
 
     asyncHandler(async function(req, res, next) {
         const errors = validationResult(req);
@@ -31,6 +32,16 @@ exports.messagePost = [
         }
     })
 ]
+
+exports.messageDeletePost = asyncHandler(async function (req, res, next) {
+    const message = await Message.findById(req.body.message).populate('author').exec();
+
+    if (req.user.admin || message.author.id === req.user.id) {
+        await Message.findByIdAndDelete(req.body.message).exec();
+    }
+
+    res.redirect('/')
+})
 
 exports.signUpGet = function (req, res, next) {
     res.render('sign-up', {title: 'Sign up'});
