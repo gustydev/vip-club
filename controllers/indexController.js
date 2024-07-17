@@ -98,13 +98,16 @@ exports.signUpPost = [
 ];
 
 exports.loginGet = function(req, res, next) {
-    res.render('login', {title: 'Log in'})
+    res.render('login', {title: 'Log in', errors: req.session.messages})
 }
 
-exports.loginPost = passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login"
-})
+exports.loginPost = [
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureMessage: true
+    })
+]
 
 exports.logout = function(req, res, next) {
     req.logout(function(err) {
@@ -122,7 +125,6 @@ exports.vipApplyGet = function(req,res,next) {
 }
 
 exports.vipApplyPost = asyncHandler(async function(req, res, next) {
-    const user = await User.findById(req.user._id);
     if (req.body.password === process.env.VIP_PASS) {
         await User.findByIdAndUpdate(req.user._id, {vip: true});
         res.redirect('/')

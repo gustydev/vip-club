@@ -39,8 +39,9 @@ app.use(passport.session());
 // passport functions
 // NEED TO BE CALLED BEFORE THE ROUTES!
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
+  new LocalStrategy({passReqToCallback: true}, async (req, username, password, done) => {
     try {
+      req.session.messages = []; // Clear messages to avoid duplication
       const user = await User.findOne({ username: username });
       if (!user) {
         return done(null, false, { message: "Incorrect username" });

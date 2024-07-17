@@ -4,10 +4,10 @@ block content
   h1= title
   if user
     p Welcome back, #[strong #{user.username}]!
-    if user.vip 
+    if user.vip
       p You are a VIP!
       if user.admin 
-        p And an admin!
+        p You are an admin!
     else 
       p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
