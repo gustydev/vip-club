@@ -14,15 +14,17 @@ block content
           a(href='/login') Log in
   if user
     p Welcome back, #[strong #{user.username}]!
-    if user.vip
-      p You are a VIP!
-      if user.admin 
-        p You are an admin!
-    else 
-      p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
+    if user.admin
+      p You are an admin!
+    else
+      if user.vip 
+        p You are a VIP!
+      else 
+        p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
     p Welcome to the #{title}. Create a free account to chat!
-  h2 Chat
+    p Anyone with an account can leave a message, but only VIP's can see who posted and when. Admins (currently just the dev) can delete comments.
+  h2 Messages
   if !messages.length
     p No messages yet.
   else 

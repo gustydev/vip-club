@@ -10,7 +10,7 @@ block content
     form#login(method='post')
         div.form-field
             label(for="username") #[strong Username]: 
-            input#username(type="text" name='username' required)
+            input#username(type="text" name='username' required placeholder='Username')
         div.form-field
             label(for="password") #[strong Password]: 
             input#password(type='password' name='password' required)    
@@ -20,5 +20,4 @@ block content
         ul 
             for error in errors 
                 li=error
-    br
     
