@@ -1,7 +1,6 @@
 extends layout
 
 block content
-  h1= title
   if user
     p Welcome back, #[strong #{user.username}]!
     if user.vip
@@ -18,26 +17,27 @@ block content
     a(href='/sign-up') Sign up
     br
     a(href='/login') Log in
-  h2 Messages 
+  h2 Chat
   if !messages.length
     p No messages yet.
   else 
-    div.messages
-      for message in messages 
-        div.message
-          div.info
-            if (user && (user.vip || message.author.id === user.id))
-              div.author(style='font-weight:bold')=message.author.username 
-              div.userType=(message.author.admin ? '(Admin)' : message.author.vip ? '(VIP)' : '(Regular)')
-              div.posted=`| ${message.dateFormatted}`
-            else 
-              div.hidden #[strong ???]
-          div.text=message.text 
-          if (user && (user.admin || message.author.id === user.id)) 
-            form(method='post' action='/msg-delete')
-              label(for="message")
-              input(type="hidden" name='message' value=message._id) 
-              button.msg-delete Delete
+    div.messages-container
+      div.messages
+        for message in messages 
+          div.message
+            div.info
+              if (user && (user.vip || message.author.id === user.id))
+                div.author(style='font-weight:bold')=message.author.username 
+                div.userType=(message.author.admin ? '(Admin)' : message.author.vip ? '(VIP)' : '(Regular)')
+                div.posted=`| ${message.dateFormatted}`
+              else 
+                div.hidden #[strong ???]
+            div.text=message.text 
+            if (user && (user.admin || message.author.id === user.id)) 
+              form(method='post' action='/msg-delete')
+                label(for="message")
+                input(type="hidden" name='message' value=message._id) 
+                button.msg-delete Delete
   if user
     form#messagePost(method='post')
       label(for="text")
