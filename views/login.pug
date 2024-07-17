@@ -1,6 +1,11 @@
 extends layout 
 
 block content 
+    div.top
+        h1 VIP Club
+        ul.top-links 
+            li 
+                a(href="/") Return to main page 
     h2=title 
     form#login(method='post')
         div.form-field
@@ -15,3 +20,5 @@ block content
         ul 
             for error in errors 
                 li=error
+    br
+    

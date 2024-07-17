@@ -1,6 +1,17 @@
 extends layout
 
 block content
+  div.top
+    h1 VIP Club
+    ul.top-links
+      if user
+        li
+          a(href='/logout') Log out
+      else 
+        li 
+          a(href='/sign-up') Sign up
+        li
+          a(href='/login') Log in
   if user
     p Welcome back, #[strong #{user.username}]!
     if user.vip
@@ -10,13 +21,7 @@ block content
     else 
       p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
-    p Welcome to the #{title}. 
-  if user
-    a(href='/logout') Log out
-  else 
-    a(href='/sign-up') Sign up
-    br
-    a(href='/login') Log in
+    p Welcome to the #{title}. Create a free account to chat!
   h2 Chat
   if !messages.length
     p No messages yet.

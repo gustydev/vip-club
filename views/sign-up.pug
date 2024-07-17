@@ -1,6 +1,11 @@
 extends layout 
 
 block content 
+    div.top
+        h1 VIP Club
+        ul.top-links 
+            li 
+                a(href="/") Return to main page 
     h2=title
     form#signup(method="post")
         div.form-field
