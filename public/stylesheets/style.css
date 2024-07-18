@@ -90,7 +90,7 @@ button.msg-delete:hover {
   padding: 0;
   list-style: none;
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .top-links > li > a {
@@ -99,9 +99,9 @@ button.msg-delete:hover {
 }
 
 a {
-  filter: invert();
+  color: orange;
 }
 
 a:hover {
-  color: orange;
+  color: orangered;
 }

@@ -8,6 +8,9 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require('bcryptjs');
+const helmet = require('helmet');
+const compression = require('compression');
+
 const User = require('./models/user');
 
 require('dotenv').config();
@@ -17,6 +20,13 @@ const usersRouter = require('./routes/users');
 
 const app = express();
 
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 50,
+});
+app.use(limiter);
+
 main().catch(err => console.log(err))
 async function main() {
   await mongoose.connect(process.env.MONGODB_URI);
@@ -25,6 +35,9 @@ async function main() {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+app.use(compression());
+app.use(helmet());
 
 app.use(logger('dev'));
 app.use(express.json());
