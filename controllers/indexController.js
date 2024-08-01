@@ -4,7 +4,6 @@ const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const bcrypt = require('bcryptjs')
 const passport = require("passport");
-const user = require('../models/user');
 
 exports.index = asyncHandler(async function(req, res, next) {
     const messages = await Message.find().populate('author').exec();
@@ -53,7 +52,7 @@ exports.signUpPost = [
             throw new Error(`Username '${value}' already in use. Please try a different one.`)
         }
     }).trim().escape(),
-    body('password', 'Password is required (minimum of 4 characters)').isLength({min: 4}).trim().escape(),
+    body('password').notEmpty().withMessage('Password is required').isLength({min: 4}).withMessage('Password has a min length of 4 characters').trim().escape(),
     body('passwordConfirm').custom((value, {req}) => {
         if (value === req.body.password) {
             return true

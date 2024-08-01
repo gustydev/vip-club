@@ -22,11 +22,11 @@ block content
       else 
         p You are not a VIP. Apply for VIP #[a(href='/vip-apply') here].
   else
-    p Welcome to the #{title}. Create a free account to chat!
-    p Anyone with an account can leave a message, but only VIP's can see who posted and when. Admins (currently just the dev) can delete comments.
+    p Welcome to the #{title}. Create a free account to post a message!
+    p Anyone with an account can leave a message, but only VIP's can see who posted and when. Admins can do everything, including deleting comments.
   h2 Messages
   if !messages.length
-    p No messages yet.
+    p No messages yet. Be the first!
   else 
     div.messages-container
       div.messages
